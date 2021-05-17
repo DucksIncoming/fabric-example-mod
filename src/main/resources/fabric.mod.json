@@ -1,25 +1,28 @@
 {
   "schemaVersion": 1,
-  "id": "modid",
+  "id": "fandf",
   "version": "${version}",
 
-  "name": "Example Mod",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "name": "Frost and Flame",
+  "description": "A Fabric alternative to the Ice and Fire: Dragons mod with some new additions.",
   "authors": [
-    "Me!"
+    "DucksIncoming"
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "homepage": "https://frost-and-flame.fandom.com/",
+    "sources": "https://github.com/DucksIncoming/frost-and-flame"
   },
 
   "license": "CC0-1.0",
-  "icon": "assets/modid/icon.png",
+  "icon": "assets/fandf/icon.png",
 
   "environment": "*",
   "entrypoints": {
     "main": [
-      "net.fabricmc.example.ExampleMod"
+      "com.ducksincoming.frostandflame.FrostAndFlame"
+    ],
+    "client": [
+      "com.ducksincoming.frostandflame.FrostAndFlameClient"
     ]
   },
   "mixins": [
