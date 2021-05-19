@@ -12,13 +12,7 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.SpawnEggItem;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.RegistryKey;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.source.VanillaLayeredBiomeSource;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.gen.Accessor;
-
-import java.util.List;
+import software.bernie.geckolib3.*;
 
 public class FrostAndFlame implements ModInitializer {
 
@@ -28,8 +22,9 @@ public class FrostAndFlame implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        Registry.register(Registry.ITEM, new Identifier("fandf", "pumpkin_head_spawn_egg"), new SpawnEggItem(FrostAndFlame.PUMPKIN_HEAD, 0x000000, 0xFFAE00, new Item.Settings().group(ItemGroup.MISC)));
+        GeckoLib.initialize();
 
+        Registry.register(Registry.ITEM, new Identifier("fandf", "pumpkin_head_spawn_egg"), new SpawnEggItem(FrostAndFlame.PUMPKIN_HEAD, 0x000000, 0xFFAE00, new Item.Settings().group(ItemGroup.MISC)));
         FabricDefaultAttributeRegistry.register(PUMPKIN_HEAD, PumpkinHeadEntity.createMobAttributes());
     }
 }
