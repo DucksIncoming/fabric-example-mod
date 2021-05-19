@@ -25,6 +25,6 @@ public class FrostAndFlame implements ModInitializer {
         GeckoLib.initialize();
 
         Registry.register(Registry.ITEM, new Identifier("fandf", "pumpkin_head_spawn_egg"), new SpawnEggItem(FrostAndFlame.PUMPKIN_HEAD, 0x000000, 0xFFAE00, new Item.Settings().group(ItemGroup.MISC)));
-        FabricDefaultAttributeRegistry.register(PUMPKIN_HEAD, PumpkinHeadEntity.createMobAttributes());
+        FabricDefaultAttributeRegistry.register(PUMPKIN_HEAD, PumpkinHeadEntity.createPumpkinHeadAttributes());
     }
 }

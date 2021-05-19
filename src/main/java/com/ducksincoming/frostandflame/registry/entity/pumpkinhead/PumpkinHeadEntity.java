@@ -1,9 +1,13 @@
 package com.ducksincoming.frostandflame.registry.entity.pumpkinhead;
 
 import com.ducksincoming.frostandflame.FrostAndFlame;
+import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.mob.PathAwareEntity;
+import net.minecraft.entity.attribute.DefaultAttributeContainer;
+import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.mob.HostileEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
@@ -15,26 +19,30 @@ import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
-public class PumpkinHeadEntity extends PathAwareEntity implements IAnimatable {
+public class PumpkinHeadEntity extends HostileEntity implements IAnimatable {
 
     private AnimationFactory factory = new AnimationFactory(this);
     public boolean PumpkinHeadCanSpawn = true;
 
-    public PumpkinHeadEntity(EntityType<? extends PathAwareEntity> entityType, World world) {
+    public PumpkinHeadEntity(EntityType<? extends HostileEntity> entityType, World world) {
         super(entityType, world);
         this.ignoreCameraFrustum = true;
     }
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event){
-        if (this.moveControl.isMoving()) {
+        if (event.isMoving()) {
             event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.pumpkinhead.walk", true));
             return PlayState.CONTINUE;
         }
         else {
             return PlayState.STOP;
         }
-
     }
+
+    public static DefaultAttributeContainer.Builder createPumpkinHeadAttributes() {
+        return HostileEntity.createHostileAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, 60.0D).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.5D).add(EntityAttributes.GENERIC_ATTACK_SPEED, 0.5D).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 1.0D).add(EntityAttributes.GENERIC_ARMOR, 0.0D).add(EntityAttributes.GENERIC_MAX_HEALTH, 10.0D);
+    }
+
     @Override
     public void registerControllers(AnimationData animationData) {
         animationData.addAnimationController(new AnimationController<>(this, "controller", 0, this::predicate));
@@ -44,7 +52,8 @@ public class PumpkinHeadEntity extends PathAwareEntity implements IAnimatable {
     protected void initGoals() {
         this.goalSelector.add(0, new SwimGoal(this));
         this.goalSelector.add(1, new WanderAroundGoal(this, 0.5f));
-        this.goalSelector.add(2, new AttackGoal (this));
+        this.goalSelector.add(2, new AttackGoal(this));
+        this.targetSelector.add(2, new FollowTargetGoal(this, PlayerEntity.class, true));
     }
 
     @Override
